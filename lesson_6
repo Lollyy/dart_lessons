@@ -1,0 +1,33 @@
+
+void main (){
+
+// Условия
+
+  // if() {
+  // } else if () {
+  // } else {
+  // }
+
+  // Циклы for
+  for (var i = 0; i < 5; i++) {
+    print(i);
+  }
+
+  var collection = [1, 2, 3];
+  for (var x in collection) {
+    print(x); //  1 2 3
+  }
+
+  var callbacks = [];
+
+  for (var i = 0; i < 2; i++) {
+    callbacks.add(() => print(i));
+  }
+
+  callbacks.forEach((value) => value());
+
+  //while
+  //switch
+  // в dart рекомендуют использовать if-else
+
+}
