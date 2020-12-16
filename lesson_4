@@ -1,0 +1,60 @@
+//Изучаем основы DART
+//ооп
+
+//Функции
+//Function
+
+void main (){
+
+  //---
+  // Runes & grapheme clusters
+  // В Dart в строках можно использовать специальные символы и эмодзи (если коротко)
+  // символ (symbols)
+  #mysymbol;
+  
+
+
+  //const & final
+  const name = "C
+  
+}
+
+
+
+
+//Const & final
+
+
+void main (){
+  const name = "Codeandart";
+  // name = "123";
+  
+  const os = "Android";
+  const age = 27;
+  const value = 2 + 2;
+  
+  const double cost = 5.55;
+  const collectionOfDoule = [12.23, cost];
+  
+  // const someValue = getDoubleValue();  // ошибка
+  
+  final someFinalValue = getDoubleValue();
+  print(someFinalValue);
+  
+  
+  // final pi;
+  // pi = 3.14;
+  // инициализировать сразу
+  // исключение - создаем свойство класса, но обязательно инициализируем в конструкторе
+  
+  final a = [1, 2, 3];
+  a.add(4);
+  print(a);
+  
+  // margin: const EdgeInsets.all(4); // Так делается для оптимизации
+  
+}
+
+double getDoubleValue() {
+  return 123.234;
+}
