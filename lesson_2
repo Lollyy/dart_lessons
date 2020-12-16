@@ -1,0 +1,114 @@
+//Изучаем основы DART
+//ооп
+
+//Функции
+//Function
+
+// Все функции в DART возвращают какое-то значение.
+// Функцию можно присвоить перемнной, передать как параметр в другую функцию.
+
+void main (){
+  void printValue(int value) {
+    print(value);
+  }
+  
+  printValue(123);
+  
+  var list = [1, 2, 3];
+  list.forEach(printValue);
+  
+  list.forEach((value) {
+    print(value);
+  });
+  
+  list.forEach((v) => print(v));
+  
+  var toup = (value) => '${value.toUpperCase()}';
+  print(toup('codeandart'));
+  
+  // Именованные параметры через {} 
+  
+  String getModel({String title, int value}) {
+    return '$title - ${value + 10}';
+  }
+                            
+  print(getModel(title: 'Model', value: 22));
+  
+  //Позиционные параметры
+  
+  String hello(String name, String msg, [String device]) {
+    var result = '$name говорит $msg';
+    
+    if (device != null) {
+      result = '$result из $device';
+    }
+    return result;
+  }
+  
+  print(hello('Alex', 'Привет'));
+  print(hello('Alex', 'Привет', 'iPhone 6X'));
+  
+  
+  //Параметры по умолчанию
+  String trueName({String name = 'Alex', bool correct = false}) {
+    return correct ? name : 'Не верное имя';
+  }
+  
+  print(trueName());
+  print(trueName(correct: true));
+  
+  
+  String hello2(String name, String msg, [String device = 'Android X']) {
+    var result = '$name говорит $msg';
+    
+    if (device != null) {
+      result = '$result из $device';
+    }
+    return result;
+  }
+  
+  print(hello2('Alex', 'Привет'));
+  print(hello2('Alex', 'Привет', 'iPhone 6X'));
+  
+  void createListAndMap(
+    {List<int> list = const [1, 2, 3],
+    Map<String, String> games = const {
+      'first': 'Gothic 2',
+      'third': 'Witches 3'
+    }}) {
+    print('Список по умолчанию: $list');
+    print('Словарь по умолчанию: $games');
+  }
+  
+  createListAndMap();
+}
+
+
+bool topLevel = true;
+void main (){
+  bool insideMain = true;
+  void MyFunction() {
+    bool insideMyFunction = true;
+    print(topLevel);
+    print(insideMain);
+    print(insideMyFunction);
+  }
+  
+  MyFunction();
+}
+
+
+
+void main (){
+//замыкание - closures
+  
+  Function addFunction(num add) {
+    return (num i) => add + i;
+  }
+  
+  var add2 = addFunction(2);
+  var add4 = addFunction(4);
+  
+  print(add2(3));
+  print(add4(4));
+}
