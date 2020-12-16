@@ -1,0 +1,88 @@
+//Изучаем основы DART
+//ооп
+
+//Функции
+//Function
+
+// Все функции в DART возвращают какое-то значение.
+// Функцию можно присвоить перемнной, передать как параметр в другую функцию.
+
+//Коллекции
+// Списки List - масивы
+
+void main (){
+
+  var list = [1, 2, 3];
+  
+  List<int> values = [1, 2, 3, 4, 5, 6, 7, 8];
+  values.add(9);
+  values.remove(3);
+  
+  print('$values - размер ${values.length}');
+  
+  List<int> constantList = const [1, 2, 3, 4, 5];
+  // constantList.add(6); //Ошибка
+  
+  var list1 = [3, 2, 1];
+  var list2 = [4, ...list1];
+  
+  print(list2);
+
+  
+  var nullableList;
+  var list3 = [1, ...?nullableList];
+  print(list3);
+  
+  bool permission = true;
+  var nav = ['home', 'abot', if (permission) 'admin'];
+  print(nav);
+  
+  List<int> intList = [1, 2, 3, 4, 5];
+  List<String> strList = ['>0', for(var i in intList) '>$i'];
+  print(strList);
+  
+
+  // Множества - Set
+
+  var games = {'Witches 3', 'Gwint', 'DMC', 'FF', 'LostArk'};
+  
+  var names = <String>{};
+  // Set<String> names = {};
+  // var names = {}; //Не множесво - словарь
+  
+  games.add('TES');
+  games.addAll({'Langrisser', 'Gothic2', 'Gothic2'});
+  
+  print(games);
+  
+  final constantGames = const {'Witches 3', 'Gwint', 'DMC', 'FF', 'LostArk'};
+  // constantGames.add('Gothic2'); //не будет работать
+  
+
+  // Словари - Map
+ 
+  Map<String, String> values = {
+    'k1': 'value1',
+    'k2': 'value2',
+    'k3': 'value3',
+  };
+  
+  var films = Map ();
+  films['first'] = 'LOTR';
+  films['second'] = 'Hobbit';
+  films['third'] = 'Harry Potter';
+  
+  print(values);
+  print(films);
+  
+  films = {'fourth': 'Matrix'};
+  print(films);
+  
+  final constMap = const {
+    1: 'one',
+    2: 'two',
+    3: 'three',
+  };
+  
+  // Также работает spread и spread-nullable, if и for
+}
