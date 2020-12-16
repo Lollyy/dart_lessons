@@ -1,0 +1,442 @@
+//Изучаем основы
+//Языка программирования Dart
+
+// ООП - переменные экземпляра, конструкторы
+
+// Список инициализаторов
+
+// помимо вызова конструктора супер класса можно также инициализировать переменные екземпляра до запуска тела конструктора
+
+class Paladin {
+  num level;
+  num atack;
+  num defense;
+
+  Paladin(int exp) :
+    level = exp ~/ 10, // (exp / 10). truncate.toInt()
+    atack = exp + 10,
+    defense = exp - 10 {
+       print('Пример инициализаторов: level=$level, atack=$atack, degense=$defense');
+    }
+}
+
+void main() {
+  Paladin p = Paladin(55);
+}
+
+
+
+
+//Списки инициализаторов очень удобны при настройке final-полей
+
+class Paladin {
+  num atack;
+  num defense;
+  num classRating;
+  
+  Paladin(atack, defense) :
+    atack = atack,
+    defense = defense,
+    classRating = (atack + defense) * 10 / 2;
+}
+
+void main() {
+  Paladin p = Paladin(12, 20);
+  print(p.classRating);
+}
+
+
+// Перенаправление конструкторов. Иногда единственной целью конструктора является перенаправление в другой конструктор, который уже создан в этом же классе. Тело перенаправляющего конструктора должно быть пустым, а вызов конструктора идет через двоеточие.
+
+class Paladin {
+  num atack;
+  num defense;
+  
+  Paladin(this.atack, this.defense);
+  Paladin.darker(num atack) : this(atack, 5);
+  
+  @override
+  String toString() => 'Paladin <atack:$atack, defense=$defense>';
+}
+
+void main() {
+  Paladin p = Paladin.darker(20);
+  print(p);
+}
+
+
+// Постоянные конструкторы (константные) типа final и const
+
+class ImmutablePoint {
+  //static final ImmutablePoint origin = const ImmutablePoint(0,0);
+  final num x, y;
+  const ImmutablePoint(this.x, this.y);
+}
+
+void main() {
+  ImmutablePoint p1 = const ImmutablePoint(1, 1);
+  ImmutablePoint p2 = const ImmutablePoint(1, 1);
+  
+  print(p1 == p2); //true
+  
+  ImmutablePoint p3 = const ImmutablePoint(1, 1);
+  ImmutablePoint p4 = ImmutablePoint(1, 1);
+  
+  print(p3 == p4); //false
+}
+
+
+
+//Фабричные конструкторы (factory), этот конструктор не всегда создает новый екземпляр своего класса, например он может его возвращать из кеша
+
+class Logger {
+  final String name;
+  
+  static final Map <String, Logger> _cache = <String, Logger> {};
+  factory Logger(String name) {
+    //putIfAbsetn - найти значения по [ключу] или добавить новое значение, если его там нет.
+    return _cache.putIfAbsent(
+      name, () => Logger._internal(name));
+  }
+  Logger._internal(this.name) {
+    print('Call Constructor');
+  }
+}
+
+void main() {
+  Logger logger1 = Logger('log');
+  Logger logger2 = Logger('log');
+  Logger logger3 = Logger('log!');
+  
+  print(logger1);
+  print(logger2);
+  print(logger3);
+}
+
+
+// Методы екземпляра, Getters и Setters
+
+class Paladin {
+  final num atack;
+  final num defense;
+  final num lightPower;
+  
+  Paladin(this.atack, this.defense) : lightPower = 7;
+  
+  num superLightAtack() {
+    return atack + lightPower - 1;
+  }
+}
+
+void main() {
+  var hero = Paladin(12, 20);
+  print(hero.superLightAtack());
+}
+
+
+
+//  для вычисляемых свойств будут использоваться геттеры и сеттеры, но записываться они будут после указаного типа, но перед именем свойства
+
+class Rectangle {
+  num left, top, width, height;
+  
+  Rectangle(this.left, this.top, this.width, this.height);
+  
+  num get right => left + width;
+  set right(num value) => left = value - width;
+  
+  num get bottom => top + height;
+  set bottom(num value) => top = value - height;
+  
+}
+
+void main() {
+  var rect = Rectangle(10, 15, 20, 40);
+  print(rect.left); // 10
+  rect.right = 12;
+  print(rect.left); // -8
+}
+
+
+// Абсрактные методы и классы
+// Методы реализации, геттеры и сеттеры, могут быть абстрактные, т.е. они определяют интерфейс оставляя его для реализации другим классом.
+// Абстрактные методы могут существовать только в абстрактных классах.
+// Абстракные классы не могут создавать екземпляр обьекта, но если нужно, чтобы абстрактный класс оказался инстанцируемым, можно определить в нем фектори конструкторы.
+
+abstract class AbstractClass { 
+  void abstractMethod();
+}
+class MyClass extends AbstractClass {
+  void abstractMethod() {
+    print('abstractMethod');
+  }
+}
+void main() {
+  AbstractClass my = MyClass();
+ my.abstractMethod(); //abstractMethod
+}
+
+
+
+// Интерфейсы и их отличия от абстрактных классов, применительно к языку дарт
+
+//1 Абстрактный класс описывает что реализовывать, но не описывает как. //  Интерфейс описывает и что нужно реализовывать и при этом имеет свою реализацию.
+
+//2 В дарт нет множественного наследования.
+//  Абстрактный класс наследовать можно только один.
+//  Интерфйсы можно реализовывать хоть сколько раз.
+
+//3 Экземпляр абстрактного класса создать нельзя.
+//  Экземпляр интерфейса (интерфейс неявный) создать можно
+
+//4 Абстракный класс связывает между собой и объединяет классы, имеющие очень близкую связь.
+//Интерфейс могут реализовать классы. у которых вообще нет ничего общего.
+
+//В дарт интерфейсы - это так называемые неявные интерфейсы, потому что  каждый класс неявно определяет интерфейс.
+
+class Person { 
+  final _name;
+  Person(this._name);
+  String greet(String who) => 'Привет, $who! Меня зовут $_name';
+}
+
+class Impostor implements Person {
+  get _name => '';
+  String greet(String who) => 'Приветули, $who!';
+}
+
+String greetBob(Person person) => person.greet('Bob');
+
+void main() {
+  print(greetBob(Person('Alex'))); //Привет, Bob! Меня зовут Alex
+  print(greetBob(Impostor())); //Приветули, Bob!
+}
+
+
+// ООП - ПЕРЕМЕННЫЕ И МЕТОДЫ КЛАССА
+// Extension methods, переопределение операторов
+
+class Vector { 
+  final int x, y;
+  
+  Vector(this.x, this.y);
+  
+  Vector operator +(Vector v) => Vector(x + v.x, y + v.y);
+  Vector operator -(Vector v) => Vector(x - v.x, y - v.y);
+}
+
+void main() {
+  Vector v1 = Vector(1, 2);
+  Vector v2 = Vector(3, 4);
+  print('(${(v1 + v2).x}, ${(v1 + v2).y})'); // (4, 6)
+}
+
+
+// Как реагировать на вызов не реализованого метода в классе
+
+class MyClass {
+  @override
+  void noSuchMethod(Invocation inv) {
+    print('Вы пытаетесь использовать нереализованный метод: ${inv.memberName}');
+  }
+  void hello();
+}
+
+void main() {
+  var h = MyClass();
+  h.hello(); // Вы пытаетесь использовать нереализованный метод: Symbol("hello")
+}
+
+
+// Методы расширения (Extension)
+// В дарт есть возможность расширять уже существующие классы
+
+extension NumberParsing on String {
+  int parseInt() {
+    return int.parse(this);
+  }
+  double parseDouble() {
+    return double.parse(this);
+  }
+}
+
+void main() {
+  print('777'.parseInt()); // 777
+  print('777 ís int -  ${'777'.parseInt() is int}'); // 777 ís int -  true
+  print('777.77'.parseDouble()); // 777.77
+  print('777.77 is double - ${'777.77'.parseDouble() is double}'); // 777.77 is double - true
+}
+
+
+// Про переменные и методы класса
+// но лучше статик-методами и свойствами не злоупотреблять
+
+ class MyStaticClass {
+   static const PI = 3.14;
+   static void hi() => print('Static Method!');
+ }
+void main() {
+  print(MyStaticClass.PI); // 3.14
+  MyStaticClass.hi(); // Static Method!
+}
+
+
+
+// Перечисления и миксины
+
+// ! Перечисления содержат ограничения:
+// 1 - нельзя от ниъ наследоваться
+// 2 - нельзя смешивать (mixin)
+// 3 - нельщя реализовать (implents)
+// 4 - нельзя создать экземпляр перечисления
+
+
+enum Colour {red, green, blue}
+
+void main() {
+  print(Colour.red.index); // 0
+  print(Colour.green.index); // 1
+  print(Colour.blue.index); // 2
+  
+  List<Colour> colours = Colour.values;
+  
+  print(colours); // [Color.red, Color.green, Color.blue]
+  
+  var aColour = Colour.red;
+  
+  switch (aColour) {
+    case Colour.red:
+      print('Красный'); // Красный
+      break;
+    case Colour.green:
+      print('Зеленый');
+      break;
+    default:
+      print(aColour);
+  }
+}
+
+
+// Примеси (mixin) - позволяют обрести класу дополнительную функциональность не испольщуя наследование.
+
+void main() {
+  LightWarrior light = LightWarrior(10);
+  light.lightPower(); // Эпическая сила
+  light.recover(); // Восстанавливаем силы
+
+  print('Сила = ${light.strength}'); // Сила = 5
+  print('Ловкость = ${light.agility}'); // Ловкость = 5
+  print('Выносливость = ${light.stamina}'); // Выносливость = 5
+}
+mixin BasicFeaturesMixin on Paladin {
+  num strength = 5;
+  num agility = 5;
+  num stamina = 5;
+  void recover() => print('Восстанавливаем силы');
+}
+class Paladin {
+  num defense = 15;
+  void lightPower() => print('Эпическая сила');
+}
+class LightWarrior extends Paladin with BasicFeaturesMixin{
+  num atack;
+  LightWarrior(this.atack);
+}
+
+class Druid with BasicFeaturesMixin {
+  final int mp;
+  Druid(this.mp);
+} // error - Missing concrete implementations of 'Paladin.lightPower', 'getter Paladin.defense', and 'setter Paladin.defense'. 'BasicFeaturesMixin' can't be mixed onto 'Object' because 'Object' doesn't implement 'Paladin'. 
+
+
+// Обобщенные типы, Generics
+
+void main () {
+  var stringList = List<String>();
+  stringList.add('a');
+  // stringList.add(123); //error The argument type 'int' can't be assigned to the parameter type 'String'
+}
+
+Generics - используються для безопасности типов, также чтобы избежать дублирования кода.
+
+// abstract class ObjectCache {
+//   Object getByKey(String key);
+//   void setByKey(String key, Object value);
+// }
+
+// abstract class intCache {
+//   int getByKey(String key);
+//   void setByKey(String key, int value);
+// }
+
+// abstract class StringCache {
+//   String getByKey(String key);
+//   void setByKey(String key, String value);
+// }
+
+abstract class Cache<T> {
+  T getByKey(String key);
+  void setByKey(String key, T value);
+}
+
+class MyCache extends Cache <String> { //...extends StringCache {
+  Map cache = {};
+  
+  getByKey(String key) {
+    return cache[key];
+  }
+  
+  void setByKey(key,value) {
+    cache[key] = value;
+  }
+}
+
+void main () {
+  var stringList = List<String>();
+  stringList.add('a');
+  // stringList.add(123); //error The argument type 'int' can't be assigned to the parameter type 'String'
+  
+  var cache = MyCache();
+  cache.setByKey('key', '098987');
+  print(cache.getByKey('key'));
+}
+
+--------------------
+abstract class Cache<T> {
+  T getByKey(String key);
+  void setByKey(String key, T value);
+}
+
+class MyCache extends Cache <int> { //extends StringCache {
+  Map cache = {};
+  
+  getByKey(String key) {
+    return cache[key];
+  }
+  
+  void setByKey(key,value) {
+    cache[key] = value;
+  }
+}
+
+void main () { 
+  var cache = MyCache();
+  cache.setByKey('key', 098987);
+  print(cache.getByKey('key'));
+}
+
+
+//дженерики в дарт сохраняют информацию своих типов во время выполнения
+
+void main () { 
+  var games = <String>['Gothic 2', 'Witches 3', 'TES 4', 'TES 4'];
+  var uniqueTerm = <String>{'strength', 'agility', 'stamina'};
+  var pages = <String, String>{
+    'index.html' : 'Homepage',
+    'admin.html' : 'Admin area',
+  };
+  
+  var gameSet = Set<String>.from(games);
+  
+  print(gameSet);
+}
