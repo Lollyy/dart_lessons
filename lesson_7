@@ -1,0 +1,31 @@
+//Изучаем основы DART
+//ооп
+
+//Функции
+//Function
+
+// Все функции в DART возвращают какое-то значение.
+// Функцию можно присвоить перемнной, передать как параметр в другую функцию.
+
+// Исключения Exception
+
+void main (){
+  Position _position;
+  Future<void> getCurrentLocation() async {
+    try {
+      _position = await _geolocator
+.getCurrentPosition(desireAccuracy: LocationAccuracy.best);
+      
+      latitude = _position.latitude;
+      longitude = _position.longitude;
+    }
+
+    catch (error) {
+      print(error);
+    }
+
+    finally {
+      print('text');
+    }
+  }
+}
