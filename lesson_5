@@ -1,0 +1,34 @@
+//Условные опператоры и проверка типа
+
+void main (){
+
+  print('codeandart' is String);
+  print('codeandart' is! String);
+  print('codeandart' is int);
+
+  var b;
+  var value = 12;
+  b ??= value;
+  print(b);
+
+  bool isPublic = false;
+  var visibility = isPublic ? 'public' : 'private';
+  print(visibility);
+
+  String getName(String name) => name ?? 'Guest';
+  //String getName(String name) => name != null ? name : 'Guest';
+  print(getName(null));
+  print(getName('Alex'));
+
+  // querySelector('#confirm')
+  // ..text = 'Confirm'
+  // ..classes.add('important')
+  // ..onClick.listen((e) => window.alert('Confirmed'));
+
+  // //Аналогично записи
+  // var button = querySelector('#confirm');
+  // button.text = 'Confirm';
+  // button.classes.add('important');
+  // button.onClick.listen((e) => window.alert('Confirmed!'));
+  
+}
