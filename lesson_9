@@ -1,0 +1,53 @@
+//Изучаем основы
+//Языка программирования Dart
+
+// ООП - переменные экземпляра, конструкторы
+
+import 'dart:math';
+
+class Paladin {
+  num level; //null
+  num atack;
+  num defense;
+//   Paladin(num level, num atack, num defense) {
+//     this.level = level;
+//     this.atack = atack;
+//     this.defense = defense;
+//   }
+  Paladin.lighter({this.level, this.atack = 5, this.defense = 7});
+  Paladin.darker({this.level}) {
+    this.atack = 17;
+    this.defense = 3;
+  }
+  @override
+  String toString() => 'Paladin: level=[$level], atack=[$atack], defense=[$defense]'; 
+}
+  
+class LightWarrior extends Paladin {
+  num lightPower;
+    
+  LightWarrior.lighter({this.lightPower = 99.99}) : super.lighter(level:1);
+  LightWarrior() : super.lighter(level: _epicLevelRandom());
+  
+  static int _epicLevelRandom() => Random().nextInt(100);
+    
+  @override
+  String toString(){
+    return lightPower != null
+      ? '${super.toString()} -> LightPower : lightPower=[$lightPower]'
+      :'${super.toString()}';
+  }
+}
+
+void main() {
+  //Paladin newHero = Paladin(1, 5, 7);
+  Paladin newHero = Paladin.lighter(level: 5);
+  Paladin darkHero = Paladin.darker(level: 5);
+  print(darkHero);
+  
+  LightWarrior lightW = LightWarrior.lighter();
+  print(lightW);
+  
+  LightWarrior lightWFun = LightWarrior();
+  print(lightWFun);
+}
