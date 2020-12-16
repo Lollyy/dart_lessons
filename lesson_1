@@ -1,0 +1,37 @@
+//Изучаем основы DART
+//ооп
+//обращение у обьекта через (.)
+//ключевое слово new не обязательно
+// ; - обязательны
+
+// простые типы данных
+// void main(List<String> str) {}
+
+
+void main() {
+  var number = 0;
+  
+  int intValue = 42;
+  double doubleValue = 12.99;
+  
+  num value = getValueFromServer();
+  
+  print(number.runtimeType);
+  print(intValue.runtimeType);
+  print(doubleValue.runtimeType);
+  print(value.runtimeType);
+  
+  String str = "Изучаем Dart";
+  int numb = 42;
+  print("${str.toUpperCase()} - $numb");
+  
+  print(1 == int.parse('1'));
+  print(12.2 == double.parse('12.2'));
+  
+  print(1.toString() == '1');
+  print(3.14159.toStringAsFixed(2) == '3.14');
+}
+
+double getValueFromServer() {
+  return 12.88;
+}
