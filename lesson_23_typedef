@@ -1,0 +1,9 @@
+typedef Compare<T> = Function(T a, T b);
+
+int sort(int a, int b) => a - b;
+
+main() async {
+  print(sort is Compare<int>); //true
+}
+
+//задать тип для сложной функции можно через typedef
