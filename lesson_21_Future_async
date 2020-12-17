@@ -1,0 +1,74 @@
+//Изучаем основы
+//Язык Dart
+
+//Асинхронный подход
+
+Future getDataFromServer() async{  //асинхронная функция
+  var data = await HackingServer(); //HackingServer-процес занимающий определенное время
+}
+
+
+-----------
+print('hello');     
+syncMethod(getImageFromNET());
+print('Ok'); //вывод - hello -> картинка-полностью-загружается -> Ok
+
+print('hello');
+asyncMethod(getImageFromNET());
+print('Ok'); //вывод - hello -> картинка-начинает-загружаться-не-выводится ->ok -> картинка-полностью-загружается-выводися
+------------
+
+У типа Future можно указать дженерик, для тех данных, которые будут возвращать ассинхронные опперации
+
+Future<int> getDataFromServer() async{  //асинхронная функция
+  var data = await HackingServer(); //HackingServer-процес занимающий определенное время
+}
+
+// При вызове функции, возвращающей future, происходит две вещи:
+// 1 - функция встает в очередь на выполнение и возвращает незавершенный обьект Future
+// 2 - позже когда операция завершена, Future завершается со значением или ошибкой
+
+----------
+
+void main() {
+  performTasks();
+  print('Задача print после задачи performTasks');
+}
+
+Future<void> performTasks() async {
+  task1();
+  
+//   try {
+//     String task2Result = await task2();
+//     task3(task2Result);
+//   } catch (error) {
+//     print(error);
+//   }
+  
+  task2()
+    .then((data) => task3(data))
+    .catchError((error) => print(error));
+  
+}
+
+void task1() {
+  String result = 'task 1 data';
+  print('task1 выполнена');
+}
+
+Future<String> task2() async {
+  String result;
+  await Future.delayed(Duration(seconds: 3), () {
+    result = 'task 2 data';
+    print('task2 выполнена');
+  });
+  return result;
+}
+
+void task3(String task2Data) {
+  String result = 'task 3 data';
+  print('task3 выполнена с данными $task2Data');
+}
+
+------------
+
