@@ -1,0 +1,11 @@
+main() async {
+  Duration interval = Duration(seconds: 1);
+  Stream<int> stream$ = Stream<int>
+    .periodic(interval, (x) => (x + 1) * 2);
+  
+  stream$ = stream$.take(5);
+  
+  await for(int i in stream$) {
+    print(i);
+  }
+}
