@@ -441,7 +441,7 @@ void main () {
   print(gameSet);
 }
 
-
+---------------
 
 class SomeBaseClass{}
 
@@ -462,3 +462,15 @@ void main () {
   
   var fooObject = Foo<Object>(); // error 'Object' doesn't extend 'SomeBaseClass'
 }
+
+---------------
+// дженерики можно применять не только к классам, но и к методам
+
+// метод с дженериками
+class MyClass<T> {
+  T bar<T>(List<T> myList) {
+    T temp = myList[0];
+    return temp;
+  }
+}
+
